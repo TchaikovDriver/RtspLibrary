@@ -1,0 +1,69 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary",
+      "sdkFolder": "C:\\Users\\LiuYujie\\AppData\\Local\\Android\\Sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\build\\intermediates",
+      "gradleModulePathName": ":library",
+      "moduleRootFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library",
+      "makeFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\.cxx",
+      "cxxFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx",
+      "ndkFolder": "C:\\Users\\LiuYujie\\AppData\\Local\\Android\\Sdk\\ndk\\20.1.5948944",
+      "ndkVersion": "20.1.5948944",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [],
+    "cFlagList": [],
+    "cppFlagsList": [
+      ""
+    ],
+    "variantName": "debug",
+    "soFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\build\\intermediates\\cmake\\debug\\lib",
+    "objFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\build\\intermediates\\cmake\\debug\\obj",
+    "jsonFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug",
+    "gradleBuildOutputFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug",
+    "isDebuggableEnabled": true,
+    "validAbiList": [
+      "ARMEABI_V7A"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "ARMEABI_V7A",
+  "abiPlatformVersion": 23,
+  "cxxBuildFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a",
+  "jsonFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a\\android_gradle_build.json",
+  "gradleBuildOutputFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug\\armeabi-v7a",
+  "objFolder": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a",
+  "buildCommandFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a\\build_command.txt",
+  "buildOutputFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a\\build_output.txt",
+  "modelOutputFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a\\build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug\\armeabi-v7a\\CMakeLists.txt",
+    "toolchainWrapperFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug\\armeabi-v7a\\android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug\\armeabi-v7a\\build_generation_state.json",
+    "cacheKeyFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug\\armeabi-v7a\\compiler_cache_key.json",
+    "compilerCacheUseFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug\\armeabi-v7a\\compiler_cache_use.json",
+    "compilerCacheWriteFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug\\armeabi-v7a\\compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cxx\\debug\\armeabi-v7a\\compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a\\json_generation_record.json",
+  "compileCommandsJsonFile": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a\\compile_commands.json"
+}

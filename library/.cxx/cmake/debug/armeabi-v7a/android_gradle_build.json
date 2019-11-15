@@ -1,0 +1,78 @@
+
+{
+	"buildFiles" : [ "G:/WorkSpace/AndroidProjects/RtspLibrary/library/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"C:\\Users\\LiuYujie\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"avcodec-lib-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "avcodec-lib",
+			"buildType" : "debug",
+			"output" : "G:/WorkSpace/AndroidProjects/RtspLibrary/library/src/main/jniLibs/armeabi-v7a/libavcodec-57.so",
+			"toolchain" : "2920837497"
+		},
+		"avformat-lib-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "avformat-lib",
+			"buildType" : "debug",
+			"output" : "G:/WorkSpace/AndroidProjects/RtspLibrary/library/src/main/jniLibs/armeabi-v7a/libavformat-57.so",
+			"toolchain" : "2920837497"
+		},
+		"avutil-lib-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "avutil-lib",
+			"buildType" : "debug",
+			"output" : "G:/WorkSpace/AndroidProjects/RtspLibrary/library/src/main/jniLibs/armeabi-v7a/libavutil-55.so",
+			"toolchain" : "2920837497"
+		},
+		"rtsp-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "rtsp",
+			"buildCommand" : "C:\\Users\\LiuYujie\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\debug\\armeabi-v7a --target rtsp",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi23 --gcc-toolchain=C:/Users/LiuYujie/AppData/Local/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/LiuYujie/AppData/Local/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Drtsp_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "G:/WorkSpace/AndroidProjects/RtspLibrary/library/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "G:/WorkSpace/AndroidProjects/RtspLibrary/library/.cxx/cmake/debug/armeabi-v7a"
+				}
+			],
+			"output" : "G:/WorkSpace/AndroidProjects/RtspLibrary/library/build/intermediates/cmake/debug/obj/armeabi-v7a/librtsp.so",
+			"toolchain" : "2920837497"
+		},
+		"swresample-lib-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "swresample-lib",
+			"buildType" : "debug",
+			"output" : "G:/WorkSpace/AndroidProjects/RtspLibrary/library/src/main/jniLibs/armeabi-v7a/libswresample-2.so",
+			"toolchain" : "2920837497"
+		},
+		"swscale-lib-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "swscale-lib",
+			"buildType" : "debug",
+			"output" : "G:/WorkSpace/AndroidProjects/RtspLibrary/library/src/main/jniLibs/armeabi-v7a/libswscale-4.so",
+			"toolchain" : "2920837497"
+		}
+	},
+	"toolchains" : 
+	{
+		"2920837497" : 
+		{
+			"cCompilerExecutable" : "C:/Users/LiuYujie/AppData/Local/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "C:/Users/LiuYujie/AppData/Local/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

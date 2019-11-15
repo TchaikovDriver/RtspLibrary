@@ -3,7 +3,12 @@ package com.potterhsu.rtsplibrary.demo;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.graphics.SurfaceTexture;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,28 +17,41 @@ import android.widget.Toast;
 import com.potterhsu.rtsplibrary.NativeCallback;
 import com.potterhsu.rtsplibrary.RtspClient;
 
-public class MainActivity extends Activity {
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+
+public class MainActivity extends Activity  {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-
     private ImageView ivPreview;
     private EditText edtEndpoint;
-
     private RtspClient rtspClient;
+    private GLSurfaceView mSurfaceView;
+    private GLRenderer mGLRenderer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ivPreview = (ImageView) findViewById(R.id.ivPreview);
+        ShaderInitializer.instance().init(this);
+        mSurfaceView = findViewById(R.id.gl_surface_view);
+        mSurfaceView.setEGLContextClientVersion(2);
+        mSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        mSurfaceView.getHolder().setFormat(PixelFormat.RGBA_8888);
+        mGLRenderer = new GLRenderer(new GLFilter());
+        mGLRenderer.setScaleType(ScaleType.CENTER_INSIDE);
+        mSurfaceView.setRenderer(mGLRenderer);
+        mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        mSurfaceView.setPreserveEGLContextOnPause(true);
+        mSurfaceView.requestRender();
+//        ivPreview = (ImageView) findViewById(R.id.ivPreview);
         edtEndpoint = (EditText) findViewById(R.id.edtEndpoint);
 
-        rtspClient = new RtspClient(new NativeCallback() {
+        rtspClient = new RtspClient(true, new NativeCallback() {
             @Override
             public void onFrame(final byte[] frame, final int nChannel, final int width, final int height) {
 //                Log.d(TAG, String.format("onFrame: nChannel = %d, width = %d, height = %d", nChannel, width, height));
-
                 ivPreview.post(new Runnable() {
                     @Override
                     public void run() {
@@ -52,6 +70,17 @@ public class MainActivity extends Activity {
                         ivPreview.setImageBitmap(bmp);
                     }
                 });
+            }
+
+            @Override
+            public void onFrameAvailable(final ByteBuffer buffer, final int width, final int height, int channelCount) {
+                mSurfaceView.queueEvent(new Runnable() {
+                    @Override
+                    public void run() {
+                        mGLRenderer.loadTexture(buffer, width, height);
+                    }
+                });
+                mSurfaceView.requestRender();
             }
         });
     }

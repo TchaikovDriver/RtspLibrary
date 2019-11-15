@@ -14,6 +14,46 @@ jobject gCallback;
 jmethodID gCallbackMethodId;
 bool isStop = false;
 
+bool useBuffer = false;
+jobject gBuffer;
+jmethodID  gCallbackOnFrameAvailableMethodId;
+uint32_t *backBuffer = nullptr;
+
+void onFrameAvailable(JNIEnv *env, const uint8_t *buf, int channel, int width, int height);
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_potterhsu_rtsplibrary_RtspClient_initializeWithBuffer(JNIEnv *env, jobject thiz, jobject callback) {
+    useBuffer = true;
+    gCallback = env->NewGlobalRef(callback);
+    jclass callbackClazz = env->GetObjectClass(gCallback);
+    if (callbackClazz == nullptr) {
+        return JNI_ERR;
+    } else {
+        gCallbackOnFrameAvailableMethodId = env->GetMethodID(callbackClazz, "onFrameAvailable",
+                                                             "(Ljava/nio/ByteBuffer;III)V");
+        return JNI_OK;
+    }
+}
+
+void onFrameAvailable(JNIEnv *env, const uint8_t *buf, int channelCount, int width, int height) {
+    auto capacity = static_cast<const size_t>(width * height);
+    if (gBuffer == nullptr) {
+        backBuffer = new uint32_t[capacity];
+        gBuffer = env->NewGlobalRef(env->NewDirectByteBuffer(backBuffer, capacity * 4));
+        // todo may need global ref
+    }
+    auto *bytes = reinterpret_cast<uint32_t *>(env->GetDirectBufferAddress(gBuffer));
+    const uint32_t B = 16U;
+    const uint32_t G = 8U;
+    const uint32_t R = 0U;
+    for (int i = 0, j = 0, bufLen = width * height * channelCount; i < bufLen; i+=3) {
+        // ABGR for Bitmap
+        bytes[j++] = static_cast<uint32_t>(0xFF000000U | (buf[i+2] << B) | (buf[i+1] << G) | (buf[i] << R));
+    }
+    env->CallVoidMethod(gCallback, gCallbackOnFrameAvailableMethodId, gBuffer, width, height, 4);
+}
+
 void callback(JNIEnv *env, uint8_t *buf, int channel, int width, int height);
 
 extern "C"
@@ -116,7 +156,8 @@ Java_com_potterhsu_rtsplibrary_RtspClient_play(
     while (!isStop && av_read_frame(context, &packet) >= 0) {
         if (packet.stream_index == video_stream_index) { // Packet is video
             if (stream == NULL) {
-                stream = avformat_new_stream(oc, context->streams[video_stream_index]->codec->codec);
+                stream = avformat_new_stream(oc,
+                                             context->streams[video_stream_index]->codec->codec);
                 avcodec_copy_context(stream->codec, context->streams[video_stream_index]->codec);
                 stream->sample_aspect_ratio = context->streams[video_stream_index]->codec->sample_aspect_ratio;
             }
@@ -124,9 +165,13 @@ Java_com_potterhsu_rtsplibrary_RtspClient_play(
             int check = 0;
             packet.stream_index = stream->id;
             avcodec_decode_video2(ccontext, pic, &check, &packet);
-            sws_scale(img_convert_ctx, (const uint8_t * const *)pic->data, pic->linesize, 0, ccontext->height, picrgb->data, picrgb->linesize);
-
-            callback(env, picture_buf2, 3, ccontext->width, ccontext->height);
+            sws_scale(img_convert_ctx, (const uint8_t *const *) pic->data, pic->linesize, 0,
+                      ccontext->height, picrgb->data, picrgb->linesize);
+            if (useBuffer) {
+                onFrameAvailable(env, picture_buf2, 3, ccontext->width, ccontext->height);
+            } else {
+                callback(env, picture_buf2, 3, ccontext->width, ccontext->height);
+            }
         }
         av_free_packet(&packet);
         av_init_packet(&packet);
@@ -159,6 +204,15 @@ Java_com_potterhsu_rtsplibrary_RtspClient_dispose(
         JNIEnv *env,
         jobject) {
     env->DeleteGlobalRef(gCallback);
+
+    if (useBuffer) {
+        env->DeleteGlobalRef(gBuffer);
+        gBuffer = nullptr;
+        if (backBuffer) {
+            delete[] backBuffer;
+            backBuffer = nullptr;
+        }
+    }
 }
 
 void callback(JNIEnv *env, uint8_t *buf, int nChannel, int width, int height) {
@@ -168,4 +222,3 @@ void callback(JNIEnv *env, uint8_t *buf, int nChannel, int width, int height) {
     env->CallVoidMethod(gCallback, gCallbackMethodId, gByteArray, nChannel, width, height);
     env->DeleteLocalRef(gByteArray);
 }
-

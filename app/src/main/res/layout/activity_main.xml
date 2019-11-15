@@ -11,8 +11,13 @@
     android:keepScreenOn="true"
     tools:context="com.potterhsu.rtsplibrary.demo.MainActivity">
 
-    <ImageView
-        android:id="@+id/ivPreview"
+<!--    <ImageView-->
+<!--        android:id="@+id/ivPreview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/gl_surface_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -20,7 +25,7 @@
         android:id="@+id/edtEndpoint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="rtsp://"
+        android:text="rtsp://192.168.137.231:5540/ch0"
         android:hint="Endpoint" />
 
     <Button
