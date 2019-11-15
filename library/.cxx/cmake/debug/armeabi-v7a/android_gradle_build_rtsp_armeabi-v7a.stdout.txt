@@ -1,1 +1,129 @@
-ninja: no work to do.
+[1/2] Building CXX object CMakeFiles/rtsp.dir/src/main/cpp/native-lib.cpp.o
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:140:34: warning: 'codec' is deprecated [-Wdeprecated-declarations]
+        if (context->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
+                                 ^
+../../../../src/main/cpp/include\libavformat/avformat.h:892:5: note: 'codec' has been explicitly marked deprecated here
+    attribute_deprecated
+    ^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:167:74: warning: 'codec' is deprecated [-Wdeprecated-declarations]
+    avcodec_copy_context(ccontext, context->streams[video_stream_index]->codec);
+                                                                         ^
+../../../../src/main/cpp/include\libavformat/avformat.h:892:5: note: 'codec' has been explicitly marked deprecated here
+    attribute_deprecated
+    ^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:167:5: warning: 'avcodec_copy_context' is deprecated [-Wdeprecated-declarations]
+    avcodec_copy_context(ccontext, context->streams[video_stream_index]->codec);
+    ^
+../../../../src/main/cpp/include\libavcodec/avcodec.h:4239:1: note: 'avcodec_copy_context' has been explicitly marked deprecated here
+attribute_deprecated
+^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:177:28: warning: 'avpicture_get_size' is deprecated [-Wdeprecated-declarations]
+    size_t size = (size_t) avpicture_get_size(AV_PIX_FMT_YUV420P, ccontext->width, ccontext->height);
+                           ^
+../../../../src/main/cpp/include\libavcodec/avcodec.h:5466:1: note: 'avpicture_get_size' has been explicitly marked deprecated here
+attribute_deprecated
+^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:181:29: warning: 'avpicture_get_size' is deprecated [-Wdeprecated-declarations]
+    size_t size2 = (size_t) avpicture_get_size(AV_PIX_FMT_RGB24, ccontext->width, ccontext->height);
+                            ^
+../../../../src/main/cpp/include\libavcodec/avcodec.h:5466:1: note: 'avpicture_get_size' has been explicitly marked deprecated here
+attribute_deprecated
+^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:183:5: warning: 'avpicture_fill' is deprecated [-Wdeprecated-declarations]
+    avpicture_fill( (AVPicture*) pic, picture_buf, AV_PIX_FMT_YUV420P, ccontext->width, ccontext->height );
+    ^
+../../../../src/main/cpp/include\libavcodec/avcodec.h:5451:1: note: 'avpicture_fill' has been explicitly marked deprecated here
+attribute_deprecated
+^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:184:5: warning: 'avpicture_fill' is deprecated [-Wdeprecated-declarations]
+    avpicture_fill( (AVPicture*) picrgb, picture_buf2, AV_PIX_FMT_RGB24, ccontext->width, ccontext->height );
+    ^
+../../../../src/main/cpp/include\libavcodec/avcodec.h:5451:1: note: 'avpicture_fill' has been explicitly marked deprecated here
+attribute_deprecated
+^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:192:84: warning: 'codec' is deprecated [-Wdeprecated-declarations]
+                                             context->streams[video_stream_index]->codec->codec);
+                                                                                   ^
+../../../../src/main/cpp/include\libavformat/avformat.h:892:5: note: 'codec' has been explicitly marked deprecated here
+    attribute_deprecated
+    ^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:193:46: warning: 'codec' is deprecated [-Wdeprecated-declarations]
+                avcodec_copy_context(stream->codec, context->streams[video_stream_index]->codec);
+                                             ^
+../../../../src/main/cpp/include\libavformat/avformat.h:892:5: note: 'codec' has been explicitly marked deprecated here
+    attribute_deprecated
+    ^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:193:91: warning: 'codec' is deprecated [-Wdeprecated-declarations]
+                avcodec_copy_context(stream->codec, context->streams[video_stream_index]->codec);
+                                                                                          ^
+../../../../src/main/cpp/include\libavformat/avformat.h:892:5: note: 'codec' has been explicitly marked deprecated here
+    attribute_deprecated
+    ^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:193:17: warning: 'avcodec_copy_context' is deprecated [-Wdeprecated-declarations]
+                avcodec_copy_context(stream->codec, context->streams[video_stream_index]->codec);
+                ^
+../../../../src/main/cpp/include\libavcodec/avcodec.h:4239:1: note: 'avcodec_copy_context' has been explicitly marked deprecated here
+attribute_deprecated
+^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:194:85: warning: 'codec' is deprecated [-Wdeprecated-declarations]
+                stream->sample_aspect_ratio = context->streams[video_stream_index]->codec->sample_aspect_ratio;
+                                                                                    ^
+../../../../src/main/cpp/include\libavformat/avformat.h:892:5: note: 'codec' has been explicitly marked deprecated here
+    attribute_deprecated
+    ^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:199:13: warning: 'avcodec_decode_video2' is deprecated [-Wdeprecated-declarations]
+            avcodec_decode_video2(ccontext, pic, &check, &packet);
+            ^
+../../../../src/main/cpp/include\libavcodec/avcodec.h:4810:1: note: 'avcodec_decode_video2' has been explicitly marked deprecated here
+attribute_deprecated
+^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+D:\WorkSpace\RtspLibrary\library\src\main\cpp\native-lib.cpp:204:9: warning: 'av_free_packet' is deprecated [-Wdeprecated-declarations]
+        av_free_packet(&packet);
+        ^
+../../../../src/main/cpp/include\libavcodec/avcodec.h:4471:1: note: 'av_free_packet' has been explicitly marked deprecated here
+attribute_deprecated
+^
+../../../../src/main/cpp/include\libavutil/attributes.h:94:49: note: expanded from macro 'attribute_deprecated'
+#    define attribute_deprecated __attribute__((deprecated))
+                                                ^
+14 warnings generated.
+[2/2] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\librtsp.so

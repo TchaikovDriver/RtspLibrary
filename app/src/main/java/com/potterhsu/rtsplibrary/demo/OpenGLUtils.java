@@ -101,11 +101,11 @@ public class OpenGLUtils {
                     GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
                     GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, width, height, 0,
-                    GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, buffer);
+            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGB, width, height, 0,
+                    GLES20.GL_RGB, GLES20.GL_UNSIGNED_BYTE, buffer);
         } else { // 复用纹理
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, usedTexId);
-            GLES20.glTexSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0,0, width, height, GLES20.GL_RGBA,
+            GLES20.glTexSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0,0, width, height, GLES20.GL_RGB,
                      GLES20.GL_UNSIGNED_BYTE, buffer);
             textures[0] = usedTexId;
         }

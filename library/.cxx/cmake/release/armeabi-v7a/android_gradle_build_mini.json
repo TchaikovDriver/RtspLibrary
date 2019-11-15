@@ -1,41 +1,41 @@
 {
   "buildFiles": [
-    "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\CMakeLists.txt"
+    "D:\\WorkSpace\\RtspLibrary\\library\\CMakeLists.txt"
   ],
   "cleanCommands": [
-    "C:\\Users\\LiuYujie\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\release\\armeabi-v7a --target clean"
+    "E:\\AndroidSDK\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\WorkSpace\\RtspLibrary\\library\\.cxx\\cmake\\release\\armeabi-v7a --target clean"
   ],
   "libraries": {
     "avcodec-lib-Release-armeabi-v7a": {
       "artifactName": "avcodec-lib",
       "abi": "armeabi-v7a",
-      "output": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libavcodec-57.so"
+      "output": "D:\\WorkSpace\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libavcodec-57.so"
     },
     "rtsp-Release-armeabi-v7a": {
       "artifactName": "rtsp",
-      "buildCommand": "C:\\Users\\LiuYujie\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\.cxx\\cmake\\release\\armeabi-v7a --target rtsp",
+      "buildCommand": "E:\\AndroidSDK\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\WorkSpace\\RtspLibrary\\library\\.cxx\\cmake\\release\\armeabi-v7a --target rtsp",
       "abi": "armeabi-v7a",
-      "output": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a\\librtsp.so"
+      "output": "D:\\WorkSpace\\RtspLibrary\\library\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a\\librtsp.so"
     },
     "swresample-lib-Release-armeabi-v7a": {
       "artifactName": "swresample-lib",
       "abi": "armeabi-v7a",
-      "output": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libswresample-2.so"
+      "output": "D:\\WorkSpace\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libswresample-2.so"
     },
     "avutil-lib-Release-armeabi-v7a": {
       "artifactName": "avutil-lib",
       "abi": "armeabi-v7a",
-      "output": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libavutil-55.so"
+      "output": "D:\\WorkSpace\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libavutil-55.so"
     },
     "avformat-lib-Release-armeabi-v7a": {
       "artifactName": "avformat-lib",
       "abi": "armeabi-v7a",
-      "output": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libavformat-57.so"
+      "output": "D:\\WorkSpace\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libavformat-57.so"
     },
     "swscale-lib-Release-armeabi-v7a": {
       "artifactName": "swscale-lib",
       "abi": "armeabi-v7a",
-      "output": "G:\\WorkSpace\\AndroidProjects\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libswscale-4.so"
+      "output": "D:\\WorkSpace\\RtspLibrary\\library\\src\\main\\jniLibs\\armeabi-v7a\\libswscale-4.so"
     }
   }
 }

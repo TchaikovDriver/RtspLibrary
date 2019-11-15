@@ -25,7 +25,8 @@
         android:id="@+id/edtEndpoint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="rtsp://192.168.137.231:5540/ch0"
+        android:text="rtsp://192.168.3.43:5540/ch0"
+        android:textColor="@android:color/white"
         android:hint="Endpoint" />
 
     <Button

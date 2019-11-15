@@ -1,4 +1,4 @@
-# Install script for directory: G:/WorkSpace/AndroidProjects/RtspLibrary/library
+# Install script for directory: D:/WorkSpace/RtspLibrary/library
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "G:/WorkSpace/AndroidProjects/RtspLibrary/library/.cxx/cmake/debug/armeabi-v7a/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/WorkSpace/RtspLibrary/library/.cxx/cmake/debug/armeabi-v7a/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

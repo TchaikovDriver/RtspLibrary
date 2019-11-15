@@ -1,42 +1,42 @@
 package com.potterhsu.rtsplibrary;
 
-import android.util.Log;
-
-import java.nio.ByteBuffer;
-
 public class RtspClient {
+    private final long mNativeInstance;
+    private boolean mDestroyed;
 
-    private static final String TAG = RtspClient.class.getSimpleName();
-
-    public RtspClient(NativeCallback callback) {
-        if (initialize(callback) == -1)
-            Log.d(TAG, "RtspClient initialize failed");
-        else
-            Log.d(TAG, "RtspClient initialize successfully");
+    public RtspClient(OnFrameAvailableListener callback) {
+        mNativeInstance = nativeCreate(callback);
+        if (mNativeInstance == -1) {
+            throw new IllegalStateException("Cannot initialize RtspClient!");
+        }
     }
 
-    public RtspClient(boolean useBuffer, NativeCallback callback) {
-        if (useBuffer) {
-            if (initializeWithBuffer(callback) == -1) {
-                Log.e(TAG, "initialized failed");
-            } else {
-                Log.i(TAG, "initialized successfully");
-            }
-        } else {
-            if (initialize(callback) == -1)
-                Log.d(TAG, "RtspClient initialize failed");
-            else
-                Log.d(TAG, "RtspClient initialize successfully");
+    public int play(String endPoint) {
+        checkAlive();
+        return play(mNativeInstance, endPoint);
+    }
+
+    public void stop() {
+        checkAlive();
+        stop(mNativeInstance);
+    }
+
+    private void checkAlive() {
+        if (mDestroyed) {
+            throw new IllegalStateException("Current RtspClient has been destroyed!");
         }
+    }
+
+    public void destroy() {
+        mDestroyed = true;
+        destroy(mNativeInstance);
     }
 
     static {
         System.loadLibrary("rtsp");
     }
 
-    private native int initialize(NativeCallback callback);
-
-    private native int initializeWithBuffer(NativeCallback callback);
+    private static native long nativeCreate(OnFrameAvailableListener callback);
 
     /**
      * Play stream synchronously.
@@ -44,9 +44,9 @@ public class RtspClient {
      * @param endpoint resource endpoint
      * @return 0 if exit normally or -1 otherwise
      */
-    public native int play(String endpoint);
+    private static native int play(long nativeInstance, String endpoint);
 
-    public native void stop();
+    private static native void stop(long nativeInstance);
 
-    public native void dispose();
+    private static native void destroy(long nativeInstance);
 }

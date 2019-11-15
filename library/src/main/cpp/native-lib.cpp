@@ -10,74 +10,105 @@ extern "C" {
 
 const char *TAG = __FILE__;
 
-jobject gCallback;
-jmethodID gCallbackMethodId;
-bool isStop = false;
+class JNIConnector {
+private:
+    jmethodID onFrameAvailableMid;
+    jobject callbackObj;
+    jobject pixelBuffer; // ByteBuffer
+    uint8_t *backBufferForPixels; // ByteBuffer's back array
+    int width, height, channelCount;
+    size_t capacity;
+    bool run;
 
-bool useBuffer = false;
-jobject gBuffer;
-jmethodID  gCallbackOnFrameAvailableMethodId;
-uint32_t *backBuffer = nullptr;
+    void releasePixelBuffer(JNIEnv *env) {
+        if (pixelBuffer) {
+            env->DeleteGlobalRef(pixelBuffer);
+            pixelBuffer = nullptr;
+            delete[] backBufferForPixels;
+            backBufferForPixels = nullptr;
+        }
+    }
 
-void onFrameAvailable(JNIEnv *env, const uint8_t *buf, int channel, int width, int height);
+    void allocatePixelBuffer(JNIEnv *env) {
+        auto capacity = static_cast<uint32_t >(width * height * channelCount);
+        backBufferForPixels = new uint8_t[capacity];
+        pixelBuffer = env->NewGlobalRef(env->NewDirectByteBuffer(backBufferForPixels, capacity));
+    }
 
-extern "C"
-JNIEXPORT jint JNICALL
-Java_com_potterhsu_rtsplibrary_RtspClient_initializeWithBuffer(JNIEnv *env, jobject thiz, jobject callback) {
-    useBuffer = true;
-    gCallback = env->NewGlobalRef(callback);
-    jclass callbackClazz = env->GetObjectClass(gCallback);
-    if (callbackClazz == nullptr) {
-        return JNI_ERR;
-    } else {
-        gCallbackOnFrameAvailableMethodId = env->GetMethodID(callbackClazz, "onFrameAvailable",
+public:
+    JNIConnector(JNIEnv *env, jobject callback):
+    pixelBuffer(nullptr),backBufferForPixels(nullptr), onFrameAvailableMid(nullptr),
+    width(0), height(0), channelCount(0), capacity(0), run(true){
+        callbackObj = env->NewGlobalRef(callback);
+        jclass callbackClazz = env->GetObjectClass(callback);
+        onFrameAvailableMid = env->GetMethodID(callbackClazz, "onFrameAvailable",
                                                              "(Ljava/nio/ByteBuffer;III)V");
-        return JNI_OK;
     }
-}
 
-void onFrameAvailable(JNIEnv *env, const uint8_t *buf, int channelCount, int width, int height) {
-    auto capacity = static_cast<const size_t>(width * height);
-    if (gBuffer == nullptr) {
-        backBuffer = new uint32_t[capacity];
-        gBuffer = env->NewGlobalRef(env->NewDirectByteBuffer(backBuffer, capacity * 4));
-        // todo may need global ref
+    bool isRunning() {
+        return run;
     }
-    auto *bytes = reinterpret_cast<uint32_t *>(env->GetDirectBufferAddress(gBuffer));
-    const uint32_t B = 16U;
-    const uint32_t G = 8U;
-    const uint32_t R = 0U;
-    for (int i = 0, j = 0, bufLen = width * height * channelCount; i < bufLen; i+=3) {
-        // ABGR for Bitmap
-        bytes[j++] = static_cast<uint32_t>(0xFF000000U | (buf[i+2] << B) | (buf[i+1] << G) | (buf[i] << R));
-    }
-    env->CallVoidMethod(gCallback, gCallbackOnFrameAvailableMethodId, gBuffer, width, height, 4);
-}
 
-void callback(JNIEnv *env, uint8_t *buf, int channel, int width, int height);
+    void start() {
+        run = true;
+    }
+
+    void stop() {
+        run = false;
+    }
+
+    void updateFrameSize(JNIEnv* env, int width, int height, int channelCount) {
+        __android_log_print(ANDROID_LOG_INFO, TAG, "updateFrameSize w:%d, h:%d", width, height);
+        if (this->width != width || this->height != height || this->channelCount != channelCount) {
+            releasePixelBuffer(env);
+            this->width = width;
+            this->height = height;
+            this->channelCount = channelCount;
+            capacity = static_cast<size_t>(width * height * channelCount);
+            allocatePixelBuffer(env);
+        }
+    }
+
+    void onFrameAvailable(JNIEnv* env, const uint8_t *buf, int channelCount, int width, int height) {
+        auto bytes = reinterpret_cast<uint8_t *>(env->GetDirectBufferAddress(pixelBuffer));
+        memcpy(bytes, buf, capacity);
+        // Provides an RGB ByteBuffer currently, because alpha channel is not necessary for video.
+        // If you want to display every frame in Bitmap (using RGBA_8888), you should change the pixelBuffer's capacity
+        // and apply the codes below. Additional modification is required, go fuck yourself.
+//        const uint32_t B = 16U;
+//        const uint32_t G = 8U;
+//        const uint32_t R = 0U;
+//        for (int i = 0, j = 0; i < capacity; i+=3) {
+//            // ABGR for Bitmap
+//          bytes[j++] = static_cast<uint32_t>(0xFF000000U | (buf[i+2] << B) | (buf[i+1] << G) | (buf[i] << R));
+//        }
+        env->CallVoidMethod(callbackObj, onFrameAvailableMid, pixelBuffer, width, height, 4);
+    }
+
+    void destroy(JNIEnv *env) {
+        env->DeleteGlobalRef(callbackObj);
+        callbackObj = nullptr;
+        releasePixelBuffer(env);
+    }
+};
 
 extern "C"
-jint
-Java_com_potterhsu_rtsplibrary_RtspClient_initialize(
-        JNIEnv *env,
-        jobject,
-        jobject callback) {
-    gCallback = env->NewGlobalRef(callback);
-    jclass clz = env->GetObjectClass(gCallback);
-    if (clz == NULL) {
+JNIEXPORT jlong JNICALL
+Java_com_potterhsu_rtsplibrary_RtspClient_nativeCreate(JNIEnv *env, jclass thiz,
+                                                       jobject callback) {
+    auto ptr = new JNIConnector(env, callback);
+    return reinterpret_cast<jlong>(ptr);
+}
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_potterhsu_rtsplibrary_RtspClient_play(JNIEnv *env, jclass thiz, jlong instance,
+                                                       jstring endpoint) {
+    auto jniConnector = reinterpret_cast<JNIConnector*>(instance);
+    if (nullptr == jniConnector) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "play# Cannot interpret JNIConnector");
         return JNI_ERR;
-    } else {
-        gCallbackMethodId = env->GetMethodID(clz, "onFrame", "([BIII)V");
-        return JNI_OK;
     }
-}
-
-extern "C"
-jint
-Java_com_potterhsu_rtsplibrary_RtspClient_play(
-        JNIEnv *env,
-        jobject,
-        jstring endpoint) {
     SwsContext *img_convert_ctx;
     AVFormatContext* context = avformat_alloc_context();
     AVCodecContext* ccontext = avcodec_alloc_context3(NULL);
@@ -152,8 +183,9 @@ Java_com_potterhsu_rtsplibrary_RtspClient_play(
     avpicture_fill( (AVPicture*) pic, picture_buf, AV_PIX_FMT_YUV420P, ccontext->width, ccontext->height );
     avpicture_fill( (AVPicture*) picrgb, picture_buf2, AV_PIX_FMT_RGB24, ccontext->width, ccontext->height );
 
-    isStop = false;
-    while (!isStop && av_read_frame(context, &packet) >= 0) {
+    jniConnector->updateFrameSize(env, ccontext->width, ccontext->height, 3);
+    jniConnector->start();
+    while (jniConnector->isRunning() && av_read_frame(context, &packet) >= 0) {
         if (packet.stream_index == video_stream_index) { // Packet is video
             if (stream == NULL) {
                 stream = avformat_new_stream(oc,
@@ -167,11 +199,7 @@ Java_com_potterhsu_rtsplibrary_RtspClient_play(
             avcodec_decode_video2(ccontext, pic, &check, &packet);
             sws_scale(img_convert_ctx, (const uint8_t *const *) pic->data, pic->linesize, 0,
                       ccontext->height, picrgb->data, picrgb->linesize);
-            if (useBuffer) {
-                onFrameAvailable(env, picture_buf2, 3, ccontext->width, ccontext->height);
-            } else {
-                callback(env, picture_buf2, 3, ccontext->width, ccontext->height);
-            }
+            jniConnector->onFrameAvailable(env, picture_buf2, 3, ccontext->width, ccontext->height);
         }
         av_free_packet(&packet);
         av_init_packet(&packet);
@@ -187,38 +215,31 @@ Java_com_potterhsu_rtsplibrary_RtspClient_play(
     avformat_free_context(oc);
     avformat_close_input(&context);
 
-    return isStop ? JNI_OK : JNI_ERR;
+    return !jniConnector->isRunning() ? JNI_OK : JNI_ERR;
 }
 
 extern "C"
 void
 Java_com_potterhsu_rtsplibrary_RtspClient_stop(
         JNIEnv *env,
-        jobject) {
-    isStop = true;
+        jclass thisClazz, jlong instance) {
+    auto ptr = reinterpret_cast<JNIConnector*>(instance);
+    if (nullptr == ptr) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Cannot find JNIConnector on stop");
+        return;
+    }
+    ptr->stop();
 }
+
 
 extern "C"
-void
-Java_com_potterhsu_rtsplibrary_RtspClient_dispose(
-        JNIEnv *env,
-        jobject) {
-    env->DeleteGlobalRef(gCallback);
-
-    if (useBuffer) {
-        env->DeleteGlobalRef(gBuffer);
-        gBuffer = nullptr;
-        if (backBuffer) {
-            delete[] backBuffer;
-            backBuffer = nullptr;
-        }
+JNIEXPORT void JNICALL
+Java_com_potterhsu_rtsplibrary_RtspClient_destroy(JNIEnv *env, jclass clazz, jlong instance) {
+    auto ptr = reinterpret_cast<JNIConnector*>(instance);
+    if (nullptr == ptr) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Cannot find JNIConnector on destroy");
+        return;
     }
-}
-
-void callback(JNIEnv *env, uint8_t *buf, int nChannel, int width, int height) {
-    int len = nChannel * width * height;
-    jbyteArray gByteArray = env->NewByteArray(len);
-    env->SetByteArrayRegion(gByteArray, 0, len, (jbyte *) buf);
-    env->CallVoidMethod(gCallback, gCallbackMethodId, gByteArray, nChannel, width, height);
-    env->DeleteLocalRef(gByteArray);
+    ptr->destroy(env);
+    delete ptr;
 }
